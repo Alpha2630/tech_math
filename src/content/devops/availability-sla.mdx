@@ -1,0 +1,86 @@
+---
+title: Disponibilité et calcul des SLA
+description: Comprendre les "9" du uptime et pourquoi 99.9% n'est pas 99.99%.
+level: intermédiaire
+duration: 18 min
+---
+
+# Disponibilité et calcul des SLA
+
+Après la théorie des files d'attente, le deuxième pilier des maths DevOps : la **disponibilité** (<Vocab>availability</Vocab> / <Vocab>uptime</Vocab>).
+
+## La formule de base
+
+<Math display>{`\\text{Disponibilité} = \\frac{\\text{Temps de fonctionnement}}{\\text{Temps total}} \\times 100`}</Math>
+
+## Les "9" et ce qu'ils veulent vraiment dire
+
+Chaque "9" supplémentaire réduit drastiquement le temps d'arrêt toléré par an :
+
+| SLA | Downtime/an | Downtime/mois |
+|-----|-------------|----------------|
+| 99% | ~3.65 jours | ~7.3 heures |
+| 99.9% | ~8.76 heures | ~43.8 minutes |
+| 99.99% | ~52.6 minutes | ~4.38 minutes |
+| 99.999% | ~5.26 minutes | ~26 secondes |
+
+## Disponibilité composée
+
+Si ton système dépend de plusieurs services en série, leurs disponibilités se **multiplient** — pas s'additionnent :
+
+<Math display>{`A_{total} = A_1 \\times A_2 \\times A_3`}</Math>
+
+C'est pourquoi enchaîner 5 services à 99.9% chacun donne un système global bien en dessous de 99.9%.
+
+## Vocabulaire
+
+- <Vocab>Uptime / Downtime</Vocab>
+- <Vocab>SLA (Service Level Agreement)</Vocab>
+- <Vocab>Redundancy</Vocab>
+- <Vocab>Single point of failure</Vocab>
+- <Vocab>Mean Time Between Failures (MTBF)</Vocab>
+
+## Exercice
+
+<CodeEditor
+  initialCode={`def downtime_per_year(availability_percent):
+    minutes_per_year = 365 * 24 * 60
+    downtime = minutes_per_year * (1 - availability_percent / 100)
+    return downtime
+
+def combined_availability(*availabilities):
+    result = 1.0
+    for a in availabilities:
+        result *= (a / 100)
+    return result * 100
+
+# Downtime toléré pour différents SLA
+for sla in [99, 99.9, 99.99, 99.999]:
+    print(f"{sla}% → {downtime_per_year(sla):.1f} min/an de downtime")
+
+# 5 services en chaîne, chacun à 99.9%
+combined = combined_availability(99.9, 99.9, 99.9, 99.9, 99.9)
+print(f"\\n5 services à 99.9% en chaîne → {combined:.2f}% de disponibilité globale")`}
+  language="python"
+/>
+
+<Callout type="warning" title="Piège classique">
+Un système avec 5 microservices en série, chacun à 99.9% de disponibilité, tombe autour de 99.5% globalement — presque un "9" de moins que prévu. La redondance (services en parallèle) compense ce problème.
+</Callout>
+
+<Quiz
+  domain="devops"
+  slug="availability-sla"
+  questions={[
+    {
+      question: "Combien de downtime tolère un SLA de 99.99% par an, environ ?",
+      options: ["3.65 jours", "8.76 heures", "52.6 minutes", "5.26 minutes"],
+      correct: 2
+    },
+    {
+      question: "Quand plusieurs services dépendent les uns des autres en série, leurs disponibilités...",
+      options: ["S'additionnent", "Se multiplient", "Restent égales à la plus faible", "N'ont pas d'impact les unes sur les autres"],
+      correct: 1
+    }
+  ]}
+/>

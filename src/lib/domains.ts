@@ -160,6 +160,14 @@ export const domains: Domain[] = [
         level: "intermédiaire",
         duration: "25 min",
       },
+      {
+        slug: "trigonometry-touch",
+        title: "Trigonométrie pour les interactions tactiles",
+        description:
+          "Swipe, rotation, drag — calculer des angles pour des gestes fluides.",
+        level: "intermédiaire",
+        duration: "22 min",
+      },
     ],
   },
   {
@@ -178,6 +186,14 @@ export const domains: Domain[] = [
           "Pourquoi ton serveur plante sous charge et comment le prévoir.",
         level: "intermédiaire",
         duration: "22 min",
+      },
+      {
+        slug: "availability-sla",
+        title: "Disponibilité et calcul des SLA",
+        description:
+          'Comprendre les "9" du uptime et pourquoi 99.9% n\'est pas 99.99%.',
+        level: "intermédiaire",
+        duration: "18 min",
       },
     ],
   },

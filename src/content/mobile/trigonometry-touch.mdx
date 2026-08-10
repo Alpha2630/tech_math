@@ -1,0 +1,86 @@
+---
+title: Trigonométrie pour les interactions tactiles
+description: Swipe, rotation, drag — calculer des angles pour des gestes fluides.
+level: intermédiaire
+duration: 22 min
+---
+
+# Trigonométrie pour les interactions tactiles
+
+Après la physique de chute libre, l'autre pilier des interfaces mobiles fluides : la **trigonométrie**, pour interpréter les gestes tactiles.
+
+## Calculer l'angle d'un swipe
+
+Quand un doigt glisse d'un point A à un point B, on veut souvent savoir dans quelle direction :
+
+<Math display>{`\\theta = \\text{atan2}(\\Delta y, \\Delta x)`}</Math>
+
+`atan2` (contrairement à `atan` seul) donne un angle correct sur les 360°, en tenant compte du signe de x et y.
+
+## Rotation d'un élément (pinch/rotate)
+
+Faire tourner un point autour d'un centre :
+
+<Math display>{`x' = x\\cos\\theta - y\\sin\\theta`}</Math>
+<Math display>{`y' = x\\sin\\theta + y\\cos\\theta`}</Math>
+
+## Vocabulaire
+
+- <Vocab>Gesture recognition</Vocab>
+- <Vocab>Pan / Swipe / Pinch</Vocab>
+- <Vocab>Angle / Radians</Vocab>
+- <Vocab>Touch delta</Vocab>
+- <Vocab>Threshold</Vocab>
+
+## Exercice
+
+<CodeEditor
+  initialCode={`import math
+
+def swipe_direction(x1, y1, x2, y2):
+    dx = x2 - x1
+    dy = y2 - y1
+    angle = math.degrees(math.atan2(dy, dx))
+
+    if -45 <= angle <= 45:
+        return "droite"
+    elif 45 < angle <= 135:
+        return "bas"
+    elif angle > 135 or angle < -135:
+        return "gauche"
+    else:
+        return "haut"
+
+# Exemple : swipe vers le haut
+print(swipe_direction(100, 300, 105, 50))
+
+# Exemple : swipe vers la droite
+print(swipe_direction(50, 200, 300, 205))`}
+  language="python"
+/>
+
+<Callout type="tip" title="Astuce">
+Utilise toujours `atan2(dy, dx)` plutôt que `atan(dy/dx)` — atan2 gère correctement les 4 quadrants et évite les divisions par zéro quand dx = 0.
+</Callout>
+
+<Quiz
+  domain="mobile"
+  slug="trigonometry-touch"
+  questions={[
+    {
+      question: "Pourquoi préfère-t-on atan2(dy, dx) à atan(dy/dx) ?",
+      options: [
+        "atan2 est plus rapide à calculer",
+        "atan2 gère les 4 quadrants et évite la division par zéro",
+        "atan2 retourne toujours un angle positif",
+        "Il n'y a aucune différence"
+      ],
+      correct: 1
+    },
+    {
+      question: "Pour faire tourner un point autour d'un centre, quelles fonctions utilise-t-on ?",
+      options: ["exp et log", "sin et cos", "sqrt et pow", "min et max"],
+      correct: 1
+    }
+  ]}
+/>
