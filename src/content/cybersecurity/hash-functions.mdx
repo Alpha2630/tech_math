@@ -7,7 +7,7 @@ duration: 20 min
 
 # Fonctions de hachage et intégrité
 
-Une **fonction de hachage cryptographique** transforme n’importe quelle donnée en une empreinte de taille fixe.
+Une **fonction de hachage cryptographique** transforme n'importe quelle donnée en une empreinte de taille fixe.
 
 Propriétés désirées :
 - Déterministe
@@ -40,3 +40,29 @@ print("SHA-256 :", h2)`}
   language="python"
 />
 
+<Quiz
+  domain="cybersecurity"
+  slug="hash-functions"
+  questions={[
+    {
+      question: "Quelle propriété garantit qu'on ne peut pas retrouver la donnée d'origine à partir du hash ?",
+      options: ["Déterminisme", "Résistance aux collisions", "Pre-image resistance", "Avalanche effect"],
+      correct: 2
+    },
+    {
+      question: "Combien de bits produit SHA-256 ?",
+      options: ["128", "192", "256", "512"],
+      correct: 2
+    },
+    {
+      question: "Que signifie l'avalanche effect ?",
+      options: [
+        "Le hash devient plus lent avec de grandes données",
+        "Un tout petit changement dans l'entrée change complètement le hash",
+        "Les hash peuvent être inversés facilement",
+        "Le hash est toujours identique quelle que soit l'entrée"
+      ],
+      correct: 1
+    }
+  ]}
+/>

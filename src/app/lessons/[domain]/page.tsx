@@ -2,7 +2,8 @@ import { domains, getDomain } from "@/lib/domains";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { Clock, Signal, ArrowLeft, BookOpen } from "lucide-react";
+import { getAllProgress } from "@/lib/progress";
+import { Clock, Signal, ArrowLeft, BookOpen, CheckCircle2 } from "lucide-react";
 
 export async function generateStaticParams() {
   return domains.map((d) => ({ domain: d.slug }));
@@ -37,6 +38,11 @@ export default async function DomainPage({
   const domain = getDomain(slug);
   if (!domain) notFound();
 
+  const progress = await getAllProgress();
+  const completedKeys = new Set(
+    progress.filter((p) => p.completed).map((p) => `${p.domain}/${p.slug}`)
+  );
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
       <Link
@@ -64,40 +70,59 @@ export default async function DomainPage({
       </h2>
 
       <div className="space-y-4">
-        {domain.lessons.map((lesson, idx) => (
-          <Link
-            key={lesson.slug}
-            href={`/lessons/${domain.slug}/${lesson.slug}`}
-            className="card bg-base-200 border border-primary/10 hover:border-primary/40 transition-all group"
-          >
-            <div className="card-body py-5 flex-row items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0">
-                {idx + 1}
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold group-hover:text-primary transition-colors">
-                  {lesson.title}
-                </h3>
-                <p className="text-sm opacity-60 line-clamp-1">
-                  {lesson.description}
-                </p>
-                <div className="flex gap-3 mt-2 text-xs opacity-50">
-                  <span className="flex items-center gap-1">
-                    <Signal size={12} />
-                    {lesson.level}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock size={12} />
-                    {lesson.duration}
-                  </span>
+        {domain.lessons.map((lesson, idx) => {
+          const isCompleted = completedKeys.has(`${domain.slug}/${lesson.slug}`);
+
+          return (
+            <Link
+              key={lesson.slug}
+              href={`/lessons/${domain.slug}/${lesson.slug}`}
+              className={`card bg-base-200 border transition-all group ${
+                isCompleted
+                  ? "border-success/30 hover:border-success/60"
+                  : "border-primary/10 hover:border-primary/40"
+              }`}
+            >
+              <div className="card-body py-5 flex-row items-center gap-4">
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center font-bold shrink-0 ${
+                    isCompleted
+                      ? "bg-success/10 text-success"
+                      : "bg-primary/10 text-primary"
+                  }`}
+                >
+                  {isCompleted ? <CheckCircle2 size={20} /> : idx + 1}
                 </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold group-hover:text-primary transition-colors">
+                      {lesson.title}
+                    </h3>
+                    {isCompleted && (
+                      <span className="badge badge-success badge-xs">Terminé</span>
+                    )}
+                  </div>
+                  <p className="text-sm opacity-60 line-clamp-1">
+                    {lesson.description}
+                  </p>
+                  <div className="flex gap-3 mt-2 text-xs opacity-50">
+                    <span className="flex items-center gap-1">
+                      <Signal size={12} />
+                      {lesson.level}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock size={12} />
+                      {lesson.duration}
+                    </span>
+                  </div>
+                </div>
+                <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  →
+                </span>
               </div>
-              <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                →
-              </span>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
