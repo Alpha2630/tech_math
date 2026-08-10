@@ -27,7 +27,8 @@ export const domains: Domain[] = [
       {
         slug: "crypto-basics",
         title: "Les maths de la cryptographie moderne",
-        description: "Modulo, exponentiation modulaire et RSA expliqués simplement.",
+        description:
+          "Modulo, exponentiation modulaire et RSA expliqués simplement.",
         level: "débutant",
         duration: "25 min",
       },
@@ -52,7 +53,8 @@ export const domains: Domain[] = [
       {
         slug: "linear-algebra-ml",
         title: "Algèbre linéaire pour le Machine Learning",
-        description: "Vecteurs, matrices et pourquoi c'est le cœur du deep learning.",
+        description:
+          "Vecteurs, matrices et pourquoi c'est le cœur du deep learning.",
         level: "débutant",
         duration: "30 min",
       },
@@ -106,6 +108,14 @@ export const domains: Domain[] = [
         level: "intermédiaire",
         duration: "28 min",
       },
+      {
+        slug: "vectors-dot-cross",
+        title: "Produit scalaire et produit vectoriel",
+        description:
+          "Calculer des angles, des projections et détecter des collisions.",
+        level: "intermédiaire",
+        duration: "22 min",
+      },
     ],
   },
   {
@@ -120,7 +130,8 @@ export const domains: Domain[] = [
       {
         slug: "big-o-complexity",
         title: "Complexité algorithmique (Big O)",
-        description: "Pourquoi certains codes sont lents et comment le mesurer.",
+        description:
+          "Pourquoi certains codes sont lents et comment le mesurer.",
         level: "débutant",
         duration: "20 min",
       },
@@ -163,7 +174,8 @@ export const domains: Domain[] = [
       {
         slug: "queueing-theory",
         title: "Théorie des files d'attente",
-        description: "Pourquoi ton serveur plante sous charge et comment le prévoir.",
+        description:
+          "Pourquoi ton serveur plante sous charge et comment le prévoir.",
         level: "intermédiaire",
         duration: "22 min",
       },

@@ -1,0 +1,79 @@
+---
+title: Produit scalaire et produit vectoriel
+description: Calculer des angles, des projections et détecter des collisions.
+level: intermédiaire
+duration: 22 min
+---
+
+# Produit scalaire et produit vectoriel
+
+Après les matrices de rotation, deux autres outils reviennent partout en robotique : le **produit scalaire** et le **produit vectoriel**.
+
+## Produit scalaire (dot product)
+
+<Math display>{`\\mathbf{a} \\cdot \\mathbf{b} = a_x b_x + a_y b_y + a_z b_z`}</Math>
+
+Il donne aussi l'angle entre deux vecteurs :
+
+<Math display>{`\\cos\\theta = \\frac{\\mathbf{a} \\cdot \\mathbf{b}}{|\\mathbf{a}||\\mathbf{b}|}`}</Math>
+
+**Usage concret** : un robot vérifie s'il regarde vers une cible en calculant l'angle entre sa direction et le vecteur vers la cible.
+
+## Produit vectoriel (cross product)
+
+<Math display>{`\\mathbf{a} \\times \\mathbf{b}`}</Math>
+
+Produit un vecteur **perpendiculaire** aux deux entrées — essentiel pour calculer une normale de surface ou l'axe de rotation entre deux orientations.
+
+## Vocabulaire
+
+- <Vocab>Dot product</Vocab>
+- <Vocab>Cross product</Vocab>
+- <Vocab>Normal vector</Vocab>
+- <Vocab>Orthogonal</Vocab>
+- <Vocab>Magnitude / Norm</Vocab>
+
+## Exercice
+
+<CodeEditor
+  initialCode={`import numpy as np
+
+a = np.array([1, 0, 0])
+b = np.array([0, 1, 0])
+
+dot = np.dot(a, b)
+cross = np.cross(a, b)
+
+print("Produit scalaire :", dot)
+print("Produit vectoriel :", cross)
+
+# Angle entre deux vecteurs
+v1 = np.array([1, 1, 0])
+v2 = np.array([1, 0, 0])
+cos_theta = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
+angle_deg = np.degrees(np.arccos(cos_theta))
+print(f"Angle entre v1 et v2 : {angle_deg:.1f}°")`}
+  language="python"
+/>
+
+<Callout type="tip" title="Astuce">
+Produit scalaire = 0 → vecteurs perpendiculaires. Produit vectoriel = 0 → vecteurs parallèles. Deux tests très utilisés en détection de collision.
+</Callout>
+
+<Quiz
+  domain="robotics"
+  slug="vectors-dot-cross"
+  questions={[
+    {
+      question: "Si le produit scalaire de deux vecteurs vaut 0, que peut-on en déduire ?",
+      options: ["Ils sont parallèles", "Ils sont perpendiculaires", "Ils sont identiques", "Rien de particulier"],
+      correct: 1
+    },
+    {
+      question: "Le produit vectoriel de deux vecteurs donne un résultat...",
+      options: ["Perpendiculaire aux deux vecteurs", "Parallèle au premier vecteur", "Un scalaire", "Toujours nul"],
+      correct: 0
+    }
+  ]}
+/>
+
