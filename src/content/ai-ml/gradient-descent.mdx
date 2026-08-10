@@ -78,3 +78,25 @@ print(f"b appris ≈ {b:.3f} (vrai = 1)")`}
 <Callout type="tip">
 Le learning rate est critique : trop grand → divergence, trop petit → convergence très lente.
 </Callout>
+
+<Quiz
+  domain="ai-ml"
+  slug="gradient-descent"
+  questions={[
+    {
+      question: "Dans θ ← θ - α∇J(θ), que représente α ?",
+      options: ["Le gradient", "Le learning rate", "La fonction de coût", "Le nombre d'epochs"],
+      correct: 1
+    },
+    {
+      question: "Que se passe-t-il si le learning rate est trop grand ?",
+      options: ["Convergence très lente", "Divergence", "Aucun effet", "Erreur de syntaxe"],
+      correct: 1
+    },
+    {
+      question: "Dans quelle direction met-on à jour les paramètres ?",
+      options: ["Dans la direction du gradient", "Dans la direction opposée au gradient", "Aléatoirement", "Vers zéro toujours"],
+      correct: 1
+    }
+  ]}
+/>

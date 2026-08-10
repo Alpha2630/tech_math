@@ -63,3 +63,25 @@ print("Sous charge :", mm1_stats(75, 80))
 print("Critique   :", mm1_stats(79, 80))`}
   language="python"
 />
+
+<Quiz
+  domain="devops"
+  slug="queueing-theory"
+  questions={[
+    {
+      question: "Dans le modèle M/M/1, que représente ρ = λ/μ ?",
+      options: ["Le temps de réponse", "L'utilisation du système", "Le nombre de serveurs", "La latence réseau"],
+      correct: 1
+    },
+    {
+      question: "Que se passe-t-il quand ρ approche 1 ?",
+      options: ["Le système devient plus rapide", "La file explose", "Rien de particulier", "Le débit double"],
+      correct: 1
+    },
+    {
+      question: "Pourquoi dimensionne-t-on les services pour rester sous 70-80% d'utilisation ?",
+      options: ["Par convention arbitraire", "Pour éviter l'explosion de la file près de ρ=1", "Pour économiser de l'argent uniquement", "Ça n'a pas d'importance"],
+      correct: 1
+    }
+  ]}
+/>

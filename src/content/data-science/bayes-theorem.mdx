@@ -40,3 +40,21 @@ posterior = (sens * prior) / p_pos
 print(f"Probabilité d'être vraiment malade si test positif : {posterior*100:.1f}%")`}
   language="python"
 />
+
+<Quiz
+  domain="data-science"
+  slug="bayes-theorem"
+  questions={[
+    {
+      question: "Dans P(A|B) = P(B|A)·P(A) / P(B), comment appelle-t-on P(A) ?",
+      options: ["Posterior", "Prior", "Likelihood", "Evidence"],
+      correct: 1
+    },
+    {
+      question: "Pour un test médical fiable à 99% sur une maladie rare (1%), un résultat positif signifie-t-il presque certainement que tu es malade ?",
+      options: ["Oui, toujours", "Non, à cause du grand nombre de faux positifs chez les gens sains", "Ça dépend du sexe du patient", "Le théorème de Bayes ne s'applique pas ici"],
+      correct: 1
+    }
+  ]}
+/>
+

@@ -107,3 +107,56 @@ print(f"\{base\}^\{exp\} mod \{mod\} = \{result\}")
 # Vérifie aussi manuellement :
 print( (7**5) % 13 )
 </CodeEditor>
+<Quiz
+  domain="cybersecurity"
+  slug="crypto-basics"
+  questions={[
+    {
+      question: "Que signifie a ≡ b (mod n) ?",
+      options: [
+        "a et b sont égaux",
+        "a et b ont le même reste dans la division par n",
+        "a divise b",
+        "n divise a mais pas b"
+      ],
+      correct: 1
+    },
+    {
+      question: "Pourquoi RSA est-il considéré comme sûr ?",
+      options: [
+        "Multiplier deux grands nombres premiers est difficile",
+        "Factoriser le produit de deux grands nombres premiers est difficile",
+        "L'addition modulaire est difficile",
+        "Les ordinateurs ne savent pas faire de multiplication"
+      ],
+      correct: 1
+    },
+    {
+      question: "Dans RSA, que représente la clé publique ?",
+      options: ["(p, q)", "(n, d)", "(n, e)", "φ(n)"],
+      correct: 2
+    }
+  ]}
+/>
+
+<Quiz
+  domain="cybersecurity"
+  slug="crypto-basics"
+  questions={[
+    {
+      question: "Que signifie a ≡ b (mod n) ?",
+      options: ["a et b sont égaux", "a et b ont le même reste dans la division par n", "a divise b", "n divise a mais pas b"],
+      correct: 1
+    },
+    {
+      question: "Pourquoi RSA est-il considéré comme sûr ?",
+      options: ["Multiplier deux grands nombres premiers est difficile", "Factoriser le produit de deux grands nombres premiers est difficile", "L'addition modulaire est difficile", "Les ordinateurs ne savent pas multiplier"],
+      correct: 1
+    },
+    {
+      question: "Dans RSA, que représente la clé publique ?",
+      options: ["(p, q)", "(n, d)", "(n, e)", "φ(n)"],
+      correct: 2
+    }
+  ]}
+/>

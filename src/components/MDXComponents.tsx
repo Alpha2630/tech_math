@@ -1,4 +1,5 @@
 import CodeEditor from "./CodeEditor";
+import Quiz from "./Quiz";
 import "katex/dist/katex.min.css";
 import katex from "katex";
 
@@ -60,6 +61,7 @@ export const mdxComponents = {
   Vocab,
   Callout,
   CodeEditor,
+  Quiz,
   h1: (props: any) => (
     <h1 className="text-3xl font-bold text-primary mt-8 mb-4" {...props} />
   ),
