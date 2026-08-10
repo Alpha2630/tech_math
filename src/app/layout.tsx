@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://techmathguide.com"),
   title: {
     default: "TechMathGuide — Maths, Anglais & Tech interconnectés",
     template: "%s | TechMathGuide",
@@ -38,6 +39,13 @@ export const metadata: Metadata = {
       "Comprendre comment les maths et l'anglais technique s'interconnectent avec la tech dans le monde réel.",
     type: "website",
     locale: "fr_FR",
+    url: "https://techmathguide.com",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TechMathGuide",
+    description:
+      "Comprendre comment les maths et l'anglais technique s'interconnectent avec la tech dans le monde réel.",
   },
 };
 

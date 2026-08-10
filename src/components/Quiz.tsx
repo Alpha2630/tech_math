@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
+import Link from "next/link";
 import { markLessonCompleteAction } from "@/app/lessons/actions";
 
 interface QuizQuestion {
   question: string;
   options: string[];
-  correct: number; // index de la bonne réponse
+  correct: number;
 }
 
 interface QuizProps {
@@ -22,6 +23,7 @@ export default function Quiz({ domain, slug, questions }: QuizProps) {
   );
   const [submitted, setSubmitted] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<"auth" | "other" | null>(null);
 
   const score = answers.reduce<number>(
     (acc, a, i) => (a === questions[i].correct ? acc + 1 : acc),
@@ -38,8 +40,12 @@ export default function Quiz({ domain, slug, questions }: QuizProps) {
   const submit = async () => {
     setSubmitted(true);
     setSaving(true);
+    setSaveError(null);
     try {
       await markLessonCompleteAction(domain, slug, score, questions.length);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setSaveError(message.includes("authentifié") ? "auth" : "other");
     } finally {
       setSaving(false);
     }
@@ -95,9 +101,24 @@ export default function Quiz({ domain, slug, questions }: QuizProps) {
           Valider mes réponses
         </button>
       ) : (
-        <div className="text-sm font-medium">
-          Score : {score}/{questions.length}{" "}
-          {saving && <span className="opacity-60">(sauvegarde…)</span>}
+        <div className="text-sm">
+          <div className="font-medium">
+            Score : {score}/{questions.length}{" "}
+            {saving && <span className="opacity-60">(sauvegarde…)</span>}
+          </div>
+          {saveError === "auth" && (
+            <div className="mt-2 opacity-80">
+              <Link href="/login" className="link link-primary">
+                Connecte-toi
+              </Link>{" "}
+              pour sauvegarder ce score et ta progression.
+            </div>
+          )}
+          {saveError === "other" && (
+            <div className="mt-2 text-error">
+              Erreur lors de la sauvegarde, réessaie plus tard.
+            </div>
+          )}
         </div>
       )}
     </div>

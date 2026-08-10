@@ -1,5 +1,5 @@
 import { domains, getDomain } from "@/lib/domains";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getAllProgress } from "@/lib/progress";
@@ -17,9 +17,24 @@ export async function generateMetadata({
   const { domain: slug } = await params;
   const domain = getDomain(slug);
   if (!domain) return { title: "Domaine introuvable" };
+
+  const url = `https://techmathguide.com/lessons/${domain.slug}`;
+
   return {
     title: domain.name,
     description: domain.description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${domain.name} | TechMathGuide`,
+      description: domain.description,
+      url,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${domain.name} | TechMathGuide`,
+      description: domain.description,
+    },
   };
 }
 
@@ -28,17 +43,16 @@ export default async function DomainPage({
 }: {
   params: Promise<{ domain: string }>;
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
   const { domain: slug } = await params;
   const domain = getDomain(slug);
   if (!domain) notFound();
 
-  const progress = await getAllProgress();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const progress = user ? await getAllProgress() : [];
   const completedKeys = new Set(
     progress.filter((p) => p.completed).map((p) => `${p.domain}/${p.slug}`)
   );
