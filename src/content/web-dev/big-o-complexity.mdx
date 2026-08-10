@@ -1,0 +1,80 @@
+---
+title: Complexité algorithmique (Big O)
+description: Pourquoi certains codes sont lents et comment le mesurer.
+level: débutant
+duration: 20 min
+---
+
+# Complexité algorithmique (Big O)
+
+La notation **Big O** (<Vocab>Big O notation</Vocab>) décrit comment le temps (ou la mémoire) d'un algorithme évolue quand la taille des données grandit.
+
+## Les classes les plus courantes
+
+| Notation | Nom | Exemple |
+|----------|-----|---------|
+| \( O(1) \) | Constant | Accès à un index de tableau |
+| \( O(\log n) \) | Logarithmique | Recherche binaire |
+| \( O(n) \) | Linéaire | Parcourir une liste |
+| \( O(n \log n) \) | Linéarithmique | Tri efficace (merge sort, quicksort moyen) |
+| \( O(n^2) \) | Quadratique | Double boucle imbriquée |
+| \( O(2^n) \) | Exponentiel | Sous-ensembles, certains backtracking |
+
+## Exemple concret
+
+```python
+# O(n²) — à éviter sur de gros volumes
+def has_duplicate_naive(arr):
+    for i in range(len(arr)):
+        for j in range(i+1, len(arr)):
+            if arr[i] == arr[j]:
+                return True
+    return False
+
+# O(n) — beaucoup mieux
+def has_duplicate_smart(arr):
+    seen = set()
+    for x in arr:
+        if x in seen:
+            return True
+        seen.add(x)
+    return False
+```
+
+## Vocabulaire entretien
+
+- <Vocab>Time complexity</Vocab> / <Vocab>Space complexity</Vocab>
+- <Vocab>Worst-case</Vocab>, <Vocab>Average-case</Vocab>, <Vocab>Best-case</Vocab>
+- <Vocab>Scalability</Vocab>
+- « What's the time complexity of this function? »
+
+## Exercice
+
+Essaie d'estimer la complexité de ce code, puis mesure :
+
+<CodeEditor
+  initialCode={`import time
+
+def slow_sum(n):
+    total = 0
+    for i in range(n):
+        for j in range(n):
+            total += 1
+    return total
+
+# Teste avec différentes tailles
+for size in [100, 200, 400]:
+    start = time.time()
+    slow_sum(size)
+    print(f"n={size} → {time.time() - start:.4f}s")
+
+# Que se passe-t-il quand n double ?`}
+  language="python"
+/>
+
+<Callout type="math" title="Règle pratique">
+Quand \( n \) double :
+- \( O(n) \) → temps ×2
+- \( O(n^2) \) → temps ×4
+- \( O(2^n) \) → explosion
+</Callout>

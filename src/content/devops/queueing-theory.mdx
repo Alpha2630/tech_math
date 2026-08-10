@@ -1,0 +1,65 @@
+---
+title: Théorie des files d'attente
+description: Pourquoi ton serveur plante sous charge et comment le prévoir.
+level: intermédiaire
+duration: 22 min
+---
+
+# Théorie des files d'attente
+
+La **théorie des files d'attente** (<Vocab>queueing theory</Vocab>) est essentielle en DevOps et architecture cloud.
+
+## Modèle M/M/1 (le plus simple)
+
+- Arrivées selon une loi de Poisson (taux \( \lambda \))
+- Service exponentiel (taux \( \mu \))
+- 1 serveur
+
+Utilisation du système :
+
+$$
+\rho = \frac\{\lambda\}\{\mu\}
+$$
+
+Nombre moyen de clients dans le système :
+
+$$
+L = \frac\{\rho\}\{1 - \rho\}
+$$
+
+Temps moyen de séjour :
+
+$$
+W = \frac\{1\}\{\mu - \lambda\}
+$$
+
+## Vocabulaire
+
+- <Vocab>Throughput</Vocab>
+- <Vocab>Latency</Vocab>
+- <Vocab>Utilization</Vocab>
+- <Vocab>Queue length</Vocab>
+- <Vocab>Little's Law</Vocab> : \( L = \lambda W \)
+
+## Intuition
+
+Dès que \( \rho \) approche 1, la file explose. C'est pourquoi on dimensionne les services pour rester sous 70-80 % d'utilisation en moyenne.
+
+<CodeEditor
+  initialCode={`def mm1_stats(lambda_rate, mu_rate):
+    rho = lambda_rate / mu_rate
+    if rho >= 1:
+        return "Système instable (rho >= 1)"
+    L = rho / (1 - rho)
+    W = 1 / (mu_rate - lambda_rate)
+    return {
+        "utilisation": f"{rho*100:.1f}%",
+        "clients_moyens": round(L, 2),
+        "temps_moyen_s": round(W, 3)
+    }
+
+print("Cas normal :", mm1_stats(50, 80))
+print("Sous charge :", mm1_stats(75, 80))
+print("Critique   :", mm1_stats(79, 80))`}
+  language="python"
+/>

@@ -1,0 +1,80 @@
+---
+title: Descente de gradient expliquée
+description: Dérivées, fonctions de coût et optimisation en pratique.
+level: intermédiaire
+duration: 25 min
+---
+
+# Descente de gradient expliquée
+
+La **descente de gradient** (<Vocab>gradient descent</Vocab>) est l'algorithme d'optimisation le plus important en machine learning.
+
+## L'idée
+
+On veut minimiser une fonction de coût \( J(\theta) \).
+
+On met à jour les paramètres dans la direction opposée au gradient :
+
+$$
+\theta \leftarrow \theta - \alpha \nabla J(\theta)
+$$
+
+où \( \alpha \) est le **learning rate** (<Vocab>learning rate</Vocab>).
+
+## Version simple en 1D
+
+$$
+\theta_\{new\} = \theta_\{old\} - \alpha \frac\{dJ\}\{d\theta\}
+$$
+
+## En pratique (régression linéaire)
+
+Fonction de coût (MSE) :
+
+$$
+J(w, b) = \frac\{1\}\{2m\} \sum_\{i=1\}^\{m\} (wx^\{(i)\} + b - y^\{(i)\})^2
+$$
+
+## Vocabulaire
+
+- <Vocab>Loss function / Cost function</Vocab>
+- <Vocab>Gradient</Vocab>
+- <Vocab>Learning rate</Vocab>
+- <Vocab>Epoch</Vocab>
+- <Vocab>Batch / Mini-batch</Vocab>
+- <Vocab>Stochastic Gradient Descent (SGD)</Vocab>
+- <Vocab>Vanishing / Exploding gradients</Vocab>
+
+## Mini implémentation
+
+<CodeEditor
+  initialCode={`import numpy as np
+
+# Données simples : y = 2x + 1 + bruit
+np.random.seed(42)
+X = np.linspace(0, 10, 50)
+y = 2 * X + 1 + np.random.randn(50) * 1.5
+
+# Paramètres initiaux
+w, b = 0.0, 0.0
+lr = 0.01
+epochs = 200
+
+for epoch in range(epochs):
+    y_pred = w * X + b
+    error = y_pred - y
+    # Gradients
+    dw = (2 / len(X)) * np.sum(error * X)
+    db = (2 / len(X)) * np.sum(error)
+    # Update
+    w -= lr * dw
+    b -= lr * db
+
+print(f"w appris ≈ {w:.3f} (vrai = 2)")
+print(f"b appris ≈ {b:.3f} (vrai = 1)")`}
+  language="python"
+/>
+
+<Callout type="tip">
+Le learning rate est critique : trop grand → divergence, trop petit → convergence très lente.
+</Callout>

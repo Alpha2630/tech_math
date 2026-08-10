@@ -1,0 +1,42 @@
+---
+title: Théorème de Bayes en pratique
+description: Probabilités conditionnelles et applications réelles.
+level: intermédiaire
+duration: 20 min
+---
+
+# Théorème de Bayes en pratique
+
+$$
+P(A|B) = \frac\{P(B|A) \cdot P(A)\}\{P(B)\}
+$$
+
+C'est le fondement du **Naive Bayes**, du spam filtering, du diagnostic médical, etc.
+
+## Vocabulaire
+
+- <Vocab>Prior</Vocab> / <Vocab>Posterior</Vocab>
+- <Vocab>Likelihood</Vocab>
+- <Vocab>Evidence</Vocab>
+- <Vocab>Conditional probability</Vocab>
+
+## Exemple classique (faux positifs)
+
+Un test de maladie rare (1 %) a 99 % de sensibilité et 99 % de spécificité.
+Si le test est positif, quelle est la vraie probabilité d'être malade ?
+
+<CodeEditor
+  initialCode={`# Théorème de Bayes - test médical
+prior = 0.01          # P(malade)
+sens = 0.99           # P(positif | malade)
+spec = 0.99           # P(négatif | sain)
+false_pos = 1 - spec  # P(positif | sain)
+
+# P(positif) = P(pos|malade)P(malade) + P(pos|sain)P(sain)
+p_pos = sens * prior + false_pos * (1 - prior)
+
+# Posterior
+posterior = (sens * prior) / p_pos
+print(f"Probabilité d'être vraiment malade si test positif : {posterior*100:.1f}%")`}
+  language="python"
+/>

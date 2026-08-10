@@ -1,0 +1,73 @@
+---
+title: Statistiques fondamentales pour la data
+description: Moyenne, variance, distributions et intuition.
+level: débutant
+duration: 22 min
+---
+
+# Statistiques fondamentales pour la data
+
+La data science sans statistiques, c'est comme conduire sans regarder le tableau de bord.
+
+## 1. Moyenne et médiane
+
+La **moyenne** (<Vocab>mean</Vocab> / <Vocab>average</Vocab>) :
+
+$$
+\bar\{x\} = \frac\{1\}\{n\} \sum_\{i=1\}^\{n\} x_i
+$$
+
+La **médiane** (<Vocab>median</Vocab>) est plus robuste aux valeurs extrêmes.
+
+## 2. Variance et écart-type
+
+La **variance** mesure la dispersion :
+
+$$
+\sigma^2 = \frac\{1\}\{n\} \sum_\{i=1\}^\{n\} (x_i - \bar\{x\})^2
+$$
+
+L'**écart-type** (<Vocab>standard deviation</Vocab>) est simplement \( \sigma = \sqrt\{\sigma^2\} \).
+
+En pratique on utilise souvent la version corrigée (diviseur \( n-1 \)) pour les échantillons.
+
+## 3. Distributions
+
+- **Normale** (Gaussienne) : la plus célèbre
+- **Binomiale**, **Poisson**, **Exponentielle**…
+
+$$
+f(x) = \frac\{1\}\{\sigma\sqrt\{2\pi\}\} e^\{-\frac\{1\}\{2\}\left(\frac\{x-\mu\}\{\sigma\}\right)^2\}
+$$
+
+## Vocabulaire
+
+| Français | English |
+|----------|---------|
+| Moyenne | <Vocab>Mean / Average</Vocab> |
+| Médiane | <Vocab>Median</Vocab> |
+| Variance | <Vocab>Variance</Vocab> |
+| Écart-type | <Vocab>Standard deviation (std)</Vocab> |
+| Distribution | <Vocab>Distribution</Vocab> |
+| Échantillon | <Vocab>Sample</Vocab> |
+| Population | <Vocab>Population</Vocab> |
+| Outlier | <Vocab>Outlier</Vocab> |
+
+## Exercice
+
+<CodeEditor
+  initialCode={`import numpy as np
+
+data = np.array([12, 15, 14, 10, 18, 20, 13, 16, 11, 17])
+
+print("Moyenne     :", np.mean(data))
+print("Médiane     :", np.median(data))
+print("Variance    :", np.var(data))
+print("Écart-type  :", np.std(data))
+print("Min / Max   :", np.min(data), np.max(data))`}
+  language="python"
+/>
+
+<Callout type="tip">
+En pandas : `df.describe()` te donne tout ça en une ligne. Mais comprendre les formules te permet de détecter quand les stats mentent.
+</Callout>

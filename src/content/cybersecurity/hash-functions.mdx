@@ -1,0 +1,41 @@
+---
+title: Fonctions de hachage et intégrité
+description: SHA, collisions et pourquoi les maths comptent.
+level: intermédiaire
+duration: 20 min
+---
+
+# Fonctions de hachage et intégrité
+
+Une **fonction de hachage cryptographique** transforme n’importe quelle donnée en une empreinte de taille fixe.
+
+Propriétés désirées :
+- Déterministe
+- Rapide à calculer
+- Irréversible (<Vocab>pre-image resistance</Vocab>)
+- Résistante aux collisions (<Vocab>collision resistance</Vocab>)
+
+## SHA-256
+
+Produit 256 bits (64 caractères hex).
+
+## Vocabulaire
+
+- <Vocab>Hash / Digest / Fingerprint</Vocab>
+- <Vocab>Salt</Vocab>
+- <Vocab>Rainbow table</Vocab>
+- <Vocab>Avalanche effect</Vocab>
+
+<CodeEditor
+  initialCode={`import hashlib
+
+msg = "TechMathGuide"
+h = hashlib.sha256(msg.encode()).hexdigest()
+print("SHA-256 :", h)
+
+# Petit changement = hash complètement différent
+msg2 = "TechMathGuide!"
+h2 = hashlib.sha256(msg2.encode()).hexdigest()
+print("SHA-256 :", h2)`}
+  language="python"
+/>

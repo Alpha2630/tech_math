@@ -1,0 +1,53 @@
+---
+title: Théorie des graphes dans le web
+description: Réseaux, routing et recommandations.
+level: intermédiaire
+duration: 25 min
+---
+
+# Théorie des graphes dans le web
+
+Le web, les réseaux sociaux, les recommandations… tout est un **graphe**.
+
+Un graphe \( G = (V, E) \) : sommets (nodes) + arêtes (edges).
+
+## Vocabulaire
+
+- <Vocab>Node / Vertex</Vocab>
+- <Vocab>Edge / Link</Vocab>
+- <Vocab>Directed / Undirected graph</Vocab>
+- <Vocab>Degree</Vocab>
+- <Vocab>Shortest path</Vocab> (Dijkstra, BFS)
+- <Vocab>PageRank</Vocab>
+- <Vocab>Centrality</Vocab>
+
+## BFS simple
+
+<CodeEditor
+  initialCode={`from collections import deque
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+def bfs(start, goal):
+    queue = deque([(start, [start])])
+    visited = {start}
+    while queue:
+        node, path = queue.popleft()
+        if node == goal:
+            return path
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+    return None
+
+print("Chemin A → F :", bfs('A', 'F'))`}
+  language="python"
+/>

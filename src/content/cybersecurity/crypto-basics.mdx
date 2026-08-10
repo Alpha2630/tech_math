@@ -1,0 +1,109 @@
+---
+title: Les maths de la cryptographie moderne
+description: Modulo, exponentiation modulaire et RSA expliqués simplement.
+level: débutant
+duration: 25 min
+---
+
+# Les maths de la cryptographie moderne
+
+La **cryptographie** (en anglais : <Vocab>cryptography</Vocab>) repose presque entièrement sur des idées mathématiques élégantes. Pas besoin d'être un génie des maths — juste de comprendre quelques outils puissants.
+
+## 1. L'arithmétique modulaire (le cœur de tout)
+
+En cryptographie on travaille presque toujours **modulo** un nombre.
+
+$$
+a \equiv b \pmod\{n\}
+$$
+
+signifie que \( a \) et \( b \) ont le même reste quand on les divise par \( n \).
+
+### Exemple concret
+
+$$
+17 \equiv 2 \pmod\{5\}
+$$
+
+parce que \( 17 = 3 \times 5 + 2 \).
+
+En Python :
+
+```python
+print(17 % 5)  # 2
+```
+
+<Callout type="math" title="Pourquoi c'est utile ?">
+L'arithmétique modulaire permet de créer des opérations qui sont **faciles dans un sens** et **extrêmement difficiles dans l'autre**. C'est la base de la sécurité moderne.
+</Callout>
+
+## 2. L'exponentiation modulaire
+
+L'opération clé de RSA et de Diffie-Hellman :
+
+$$
+c = m^e \bmod n
+$$
+
+Calculer \( m^e \) puis prendre le reste modulo \( n \).
+
+Même avec de très grands nombres, on peut le calculer efficacement grâce à l'**exponentiation rapide** (<Vocab>modular exponentiation</Vocab>).
+
+## 3. RSA en 5 minutes
+
+RSA repose sur deux idées :
+
+1. Il est facile de multiplier deux grands nombres premiers.
+2. Il est **très difficile** de factoriser le produit (problème de la factorisation).
+
+### Génération des clés (simplifié)
+
+- Choisir deux grands premiers \( p \) et \( q \)
+- Calculer \( n = p \times q \)
+- Calculer \( \phi(n) = (p-1)(q-1) \) (indicatrice d'Euler)
+- Choisir un exposant public \( e \) (souvent 65537)
+- Calculer \( d \) tel que \( e \times d \equiv 1 \pmod\{\phi(n)\} \)
+
+Clé publique : \( (n, e) \)  
+Clé privée : \( (n, d) \)
+
+### Chiffrement / Déchiffrement
+
+$$
+\text\{Ciphertext\} = \text\{message\}^e \bmod n
+$$
+
+$$
+\text\{message\} = \text\{Ciphertext\}^d \bmod n
+$$
+
+## Vocabulaire anglais essentiel
+
+| Français | English | Contexte |
+|----------|---------|----------|
+| Chiffrement | <Vocab>Encryption</Vocab> | Transformer un message en illisible |
+| Déchiffrement | <Vocab>Decryption</Vocab> | L'opération inverse |
+| Clé publique | <Vocab>Public key</Vocab> | Peut être partagée |
+| Clé privée | <Vocab>Private key</Vocab> | Doit rester secrète |
+| Hachage | <Vocab>Hashing</Vocab> | Empreinte à sens unique |
+| Signature numérique | <Vocab>Digital signature</Vocab> | Prouver l'authenticité |
+| Attaque par force brute | <Vocab>Brute-force attack</Vocab> | Essayer toutes les possibilités |
+
+## Exercice interactif
+
+Essaie de calculer une petite exponentiation modulaire :
+
+<CodeEditor language="python">
+# Calcule 7^5 mod 13
+# Résultat attendu : 11
+
+base = 7
+exp = 5
+mod = 13
+
+result = pow(base, exp, mod)  # façon efficace en Python
+print(f"\{base\}^\{exp\} mod \{mod\} = \{result\}")
+
+# Vérifie aussi manuellement :
+print( (7**5) % 13 )
+</CodeEditor>

@@ -1,0 +1,58 @@
+---
+title: Physique et maths dans les jeux mobiles
+description: Vecteurs, collision et animations fluides.
+level: intermédiaire
+duration: 25 min
+---
+
+# Physique et maths dans les jeux mobiles
+
+Même un simple jeu de plateforme utilise des maths de vecteurs en permanence.
+
+## Position, vitesse, accélération
+
+$$
+\mathbf\{v\} = \mathbf\{v\}_0 + \mathbf\{a\}t
+$$
+
+$$
+\mathbf\{p\} = \mathbf\{p\}_0 + \mathbf\{v\}_0 t + \frac\{1\}\{2\}\mathbf\{a\}t^2
+$$
+
+En pratique on intègre à chaque frame (Euler) :
+
+```python
+velocity += acceleration * dt
+position += velocity * dt
+```
+
+## Vocabulaire
+
+- <Vocab>Velocity / Acceleration</Vocab>
+- <Vocab>Collision detection</Vocab>
+- <Vocab>Rigid body</Vocab>
+- <Vocab>Delta time (dt)</Vocab>
+- <Vocab>Frame rate independent</Vocab>
+
+## Exemple simple
+
+<CodeEditor
+  initialCode={`# Simulation très simple de chute libre
+import numpy as np
+
+g = -9.81  # m/s²
+dt = 0.016 # ~60 FPS
+pos = 10.0 # hauteur initiale
+vel = 0.0
+
+print("Temps | Hauteur")
+for i in range(40):
+    vel += g * dt
+    pos += vel * dt
+    if pos <= 0:
+        pos = 0
+        vel = -vel * 0.7  # rebond amorti
+    if i % 5 == 0:
+        print(f"{i*dt:5.2f}s | {pos:6.2f}m")`}
+  language="python"
+/>

@@ -1,0 +1,119 @@
+---
+title: Algèbre linéaire pour le Machine Learning
+description: Vecteurs, matrices et pourquoi c'est le cœur du deep learning.
+level: débutant
+duration: 30 min
+---
+
+# Algèbre linéaire pour le Machine Learning
+
+Si tu ne devais apprendre **qu'une seule branche** des maths pour l'IA, ce serait l'**algèbre linéaire**.
+
+Presque tout ce qui se passe dans un réseau de neurones peut se résumer à :
+
+$$
+\mathbf\{y\} = f(W \mathbf\{x\} + \mathbf\{b\})
+$$
+
+où \( W \) est une matrice de poids, \( \mathbf\{x\} \) un vecteur d'entrée, et \( f \) une fonction d'activation.
+
+## 1. Vecteurs — les données
+
+Un vecteur est simplement une liste de nombres :
+
+$$
+\mathbf\{x\} = \begin\{pmatrix\} x_1 \\ x_2 \\ x_3 \end\{pmatrix\}
+$$
+
+En Python (NumPy) :
+
+```python
+import numpy as np
+x = np.array([1.0, 2.5, -0.3])
+```
+
+En deep learning, une image 28×28 devient un vecteur de 784 dimensions.
+
+## 2. Matrices — les transformations
+
+Une matrice \( W \) de taille \( m \times n \) transforme un vecteur de dimension \( n \) en un vecteur de dimension \( m \).
+
+$$
+W = \begin\{pmatrix\}
+w_\{11\} & w_\{12\} \\
+w_\{21\} & w_\{22\} \\
+w_\{31\} & w_\{32\}
+\end\{pmatrix\}
+$$
+
+Le produit matrice-vecteur :
+
+$$
+W\mathbf\{x\} = \begin\{pmatrix\}
+w_\{11\}x_1 + w_\{12\}x_2 \\
+w_\{21\}x_1 + w_\{22\}x_2 \\
+w_\{31\}x_1 + w_\{32\}x_2
+\end\{pmatrix\}
+$$
+
+C'est exactement ce que fait une **couche dense** (<Vocab>fully connected layer</Vocab> ou <Vocab>linear layer</Vocab>).
+
+## 3. Pourquoi c'est puissant ?
+
+- Les matrices permettent de représenter des **transformations linéaires** (rotations, projections, changements d'échelle…).
+- En empilant plusieurs couches non-linéaires, on obtient des fonctions extrêmement expressives (théorème d'approximation universelle).
+
+## Vocabulaire anglais clé
+
+| Français | English | Notes |
+|----------|---------|-------|
+| Vecteur | <Vocab>Vector</Vocab> | |
+| Matrice | <Vocab>Matrix</Vocab> (pluriel : matrices) | |
+| Produit matriciel | <Vocab>Matrix multiplication</Vocab> | `np.dot` ou `@` |
+| Transposée | <Vocab>Transpose</Vocab> | \( W^T \) |
+| Poids | <Vocab>Weights</Vocab> | Paramètres appris |
+| Biais | <Vocab>Bias</Vocab> | Terme constant |
+| Couche dense | <Vocab>Dense layer / Linear layer</Vocab> | |
+| Descente de gradient | <Vocab>Gradient descent</Vocab> | Voir leçon suivante |
+| Rétropropagation | <Vocab>Backpropagation</Vocab> | Calcul des gradients |
+
+## Exercice : une couche linéaire à la main
+
+<CodeEditor
+  initialCode={`import numpy as np
+
+# Entrée (batch de 1 exemple, 3 features)
+x = np.array([[1.0, 2.0, 3.0]])
+
+# Poids : 3 features → 2 neurones
+W = np.array([
+    [0.2, 0.5, -0.1],
+    [0.3, -0.4, 0.7]
+])
+
+# Biais
+b = np.array([0.1, -0.2])
+
+# Forward pass d'une couche linéaire
+y = x @ W.T + b   # ou np.dot(x, W.T) + b
+
+print("Sortie de la couche :")
+print(y)
+print("Shape :", y.shape)`}
+  language="python"
+/>
+
+## Lien avec les frameworks modernes
+
+En PyTorch :
+
+```python
+import torch.nn as nn
+layer = nn.Linear(in_features=3, out_features=2)
+```
+
+En interne, c'est exactement \( \mathbf\{y\} = \mathbf\{x\}W^T + \mathbf\{b\} \).
+
+<Callout type="tip" title="Conseil entretien">
+Quand on te demande « Explique une couche fully-connected », commence par l'équation matricielle. Les recruteurs adorent voir que tu comprends les maths derrière le code.
+</Callout>

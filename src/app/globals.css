@@ -1,0 +1,157 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: techmath --default, techmath-light --preferslight;
+}
+
+@plugin "daisyui/theme" {
+  name: "techmath";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #0a0e17;
+  --color-base-200: #0f1623;
+  --color-base-300: #1a2332;
+  --color-base-content: #e2e8f0;
+
+  --color-primary: #00d4ff;
+  --color-primary-content: #001018;
+
+  --color-secondary: #00b4d8;
+  --color-secondary-content: #001018;
+
+  --color-accent: #48cae4;
+  --color-accent-content: #001018;
+
+  --color-neutral: #1e293b;
+  --color-neutral-content: #e2e8f0;
+
+  --color-info: #38bdf8;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "techmath-light";
+  preferslight: true;
+  color-scheme: light;
+
+  --color-base-100: #f8fafc;
+  --color-base-200: #f1f5f9;
+  --color-base-300: #e2e8f0;
+  --color-base-content: #0f172a;
+
+  --color-primary: #0284c7;
+  --color-primary-content: #f0f9ff;
+
+  --color-secondary: #0ea5e9;
+  --color-secondary-content: #f0f9ff;
+
+  --color-accent: #38bdf8;
+  --color-accent-content: #0c4a6e;
+
+  --color-neutral: #334155;
+  --color-neutral-content: #f8fafc;
+
+  --color-info: #0ea5e9;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+}
+
+/* Arc Reactor glow effects */
+.glow-primary {
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.4), 0 0 30px rgba(0, 212, 255, 0.2);
+}
+
+.glow-primary-sm {
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.35);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.arc-border {
+  border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.arc-border:hover {
+  border-color: rgba(0, 212, 255, 0.7);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.25);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e17;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a2332;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00b4d8;
+}
+
+/* KaTeX adjustments for dark theme */
+.katex {
+  color: #e2e8f0;
+  font-size: 1.1em;
+}
+
+.prose {
+  max-width: none;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: #00d4ff;
+}
+
+.prose a {
+  color: #00b4d8;
+}
+
+.prose code {
+  background: #1a2332;
+  color: #48cae4;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+.prose pre {
+  background: #0f1623 !important;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 0.5rem;
+}
+
+.prose blockquote {
+  border-left-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.05);
+}
+
+/* Vocab highlight */
+.vocab {
+  color: #00d4ff;
+  font-weight: 600;
+  background: rgba(0, 212, 255, 0.1);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  border-bottom: 1px dashed rgba(0, 212, 255, 0.5);
+}
