@@ -34,10 +34,10 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect routes
-  const isProtected =
-    request.nextUrl.pathname.startsWith("/dashboard") ||
-    request.nextUrl.pathname.startsWith("/lessons");
+  // Protect routes — seul le dashboard nécessite une connexion.
+  // Les leçons restent publiques pour le SEO ; la sauvegarde de progression
+  // (quiz, complétion) est gérée côté Server Action, pas ici.
+  const isProtected = request.nextUrl.pathname.startsWith("/dashboard");
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone();

@@ -1,23 +1,32 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
-import Editor from "@monaco-editor/react";
+import { useState, useCallback, useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { Play, RotateCcw, Loader2 } from "lucide-react";
+
+const Editor = dynamic(() => import("@monaco-editor/react"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-full bg-base-300 text-sm opacity-50">
+      Chargement de l'éditeur…
+    </div>
+  ),
+});
 
 interface CodeEditorProps {
   initialCode?: string;
   language?: string;
   height?: string;
   runnable?: boolean;
-  children?: string; // permet d'écrire le code entre les balises en MDX
+  children?: string;
 }
 
 // Cache Pyodide instance
 let pyodideInstance: any = null;
 let pyodideLoading: Promise<any> | null = null;
 
-async function loadPyodideOnce() {
-  if (pyodideInstance) return pyodideInstance;
+function loadPyodideOnce() {
+  if (pyodideInstance) return Promise.resolve(pyodideInstance);
   if (pyodideLoading) return pyodideLoading;
 
   pyodideLoading = (async () => {
@@ -49,7 +58,6 @@ export default function CodeEditor({
   runnable = true,
   children,
 }: CodeEditorProps) {
-  // Priorité : children (MDX) > initialCode > défaut
   const defaultCode =
     (typeof children === "string" ? children.trim() : "") ||
     initialCode ||
@@ -59,7 +67,30 @@ export default function CodeEditor({
   const [output, setOutput] = useState<string>("");
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pyodideReady, setPyodideReady] = useState(false);
   const isRunning = useRef(false);
+
+  // Précharge Pyodide en arrière-plan dès que la page s'affiche,
+  // pour que le premier "Exécuter" soit quasi instantané.
+  useEffect(() => {
+    if (language !== "python") return;
+
+    // On laisse le navigateur respirer avant de lancer un téléchargement lourd
+    const idle =
+      (window as any).requestIdleCallback?.(() => {
+        loadPyodideOnce().then(() => setPyodideReady(true));
+      }) ?? setTimeout(() => {
+        loadPyodideOnce().then(() => setPyodideReady(true));
+      }, 300);
+
+    return () => {
+      if ((window as any).cancelIdleCallback && typeof idle === "number") {
+        (window as any).cancelIdleCallback(idle);
+      } else {
+        clearTimeout(idle as any);
+      }
+    };
+  }, [language]);
 
   const runCode = useCallback(async () => {
     if (language !== "python") {
@@ -76,6 +107,7 @@ export default function CodeEditor({
 
     try {
       const pyodide = await loadPyodideOnce();
+      setPyodideReady(true);
 
       pyodide.runPython(`
 import sys
@@ -102,12 +134,21 @@ sys.stdout = StringIO()
     setError(null);
   };
 
+  const runLabel = running
+    ? pyodideReady
+      ? "Exécution..."
+      : "Chargement de Python…"
+    : "Exécuter";
+
   return (
     <div className="rounded-xl overflow-hidden border border-primary/20 bg-base-300 shadow-lg my-6">
       <div className="flex items-center justify-between px-4 py-2 bg-base-200 border-b border-primary/10">
         <div className="flex items-center gap-2">
           <span className="badge badge-primary badge-sm">{language}</span>
           <span className="text-xs opacity-60">Éditeur interactif</span>
+          {language === "python" && !pyodideReady && (
+            <span className="text-xs opacity-40">(préparation en cours…)</span>
+          )}
         </div>
         <div className="flex gap-2">
           <button onClick={reset} className="btn btn-ghost btn-xs gap-1" title="Réinitialiser">
@@ -123,12 +164,12 @@ sys.stdout = StringIO()
               {running ? (
                 <>
                   <Loader2 size={14} className="animate-spin" />
-                  Exécution...
+                  {runLabel}
                 </>
               ) : (
                 <>
                   <Play size={14} />
-                  Exécuter
+                  {runLabel}
                 </>
               )}
             </button>
