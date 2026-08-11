@@ -30,6 +30,17 @@ export default function Footer() {
           Dashboard
         </Link>
       </nav>
+      <nav className="grid grid-flow-col gap-4 text-xs opacity-60">
+        <Link href="/mentions-legales" className="link link-hover">
+          Mentions légales
+        </Link>
+        <Link href="/confidentialite" className="link link-hover">
+          Confidentialité
+        </Link>
+        <Link href="/cgu" className="link link-hover">
+          CGU
+        </Link>
+      </nav>
     </footer>
   );
 }
