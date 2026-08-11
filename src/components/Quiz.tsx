@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { markLessonCompleteAction } from "@/app/lessons/actions";
@@ -24,6 +24,7 @@ export default function Quiz({ domain, slug, questions }: QuizProps) {
   const [submitted, setSubmitted] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<"auth" | "other" | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const score = answers.reduce<number>(
     (acc, a, i) => (a === questions[i].correct ? acc + 1 : acc),
@@ -48,19 +49,29 @@ export default function Quiz({ domain, slug, questions }: QuizProps) {
       setSaveError(message.includes("authentifié") ? "auth" : "other");
     } finally {
       setSaving(false);
+      // Déplace le focus vers le résultat pour les utilisateurs clavier/lecteur d'écran
+      resultRef.current?.focus();
     }
   };
 
   const allAnswered = answers.every((a) => a !== null);
 
   return (
-    <div className="my-8 rounded-xl border border-primary/20 bg-base-300 p-5">
+    <div
+      className="my-8 rounded-xl border border-primary/20 bg-base-300 p-5"
+      role="region"
+      aria-label="Quiz de la leçon"
+    >
       <h3 className="text-lg font-semibold mb-4">Quiz</h3>
 
       {questions.map((q, qIndex) => (
-        <div key={qIndex} className="mb-5">
-          <p className="font-medium mb-2">{q.question}</p>
-          <div className="flex flex-col gap-2">
+        <fieldset key={qIndex} className="mb-5 border-0 p-0 m-0">
+          <legend className="font-medium mb-2">{q.question}</legend>
+          <div
+            role="radiogroup"
+            aria-label={q.question}
+            className="flex flex-col gap-2"
+          >
             {q.options.map((opt, optIndex) => {
               const isSelected = answers[qIndex] === optIndex;
               const isCorrect = optIndex === q.correct;
@@ -75,21 +86,32 @@ export default function Quiz({ domain, slug, questions }: QuizProps) {
               return (
                 <button
                   key={optIndex}
+                  type="button"
+                  role="radio"
+                  aria-checked={isSelected}
                   onClick={() => selectAnswer(qIndex, optIndex)}
-                  className={`text-left px-3 py-2 rounded-lg border text-sm flex items-center justify-between ${style}`}
+                  className={`text-left px-3 py-2 rounded-lg border text-sm flex items-center justify-between focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${style}`}
                 >
-                  {opt}
+                  <span>
+                    {opt}
+                    {submitted && isCorrect && (
+                      <span className="sr-only"> (bonne réponse)</span>
+                    )}
+                    {submitted && isSelected && !isCorrect && (
+                      <span className="sr-only"> (ta réponse, incorrecte)</span>
+                    )}
+                  </span>
                   {submitted && isSelected && isCorrect && (
-                    <CheckCircle2 size={16} className="text-success" />
+                    <CheckCircle2 size={16} className="text-success" aria-hidden="true" />
                   )}
                   {submitted && isSelected && !isCorrect && (
-                    <XCircle size={16} className="text-error" />
+                    <XCircle size={16} className="text-error" aria-hidden="true" />
                   )}
                 </button>
               );
             })}
           </div>
-        </div>
+        </fieldset>
       ))}
 
       {!submitted ? (
@@ -101,7 +123,13 @@ export default function Quiz({ domain, slug, questions }: QuizProps) {
           Valider mes réponses
         </button>
       ) : (
-        <div className="text-sm">
+        <div
+          ref={resultRef}
+          tabIndex={-1}
+          role="status"
+          aria-live="polite"
+          className="text-sm focus:outline-none"
+        >
           <div className="font-medium">
             Score : {score}/{questions.length}{" "}
             {saving && <span className="opacity-60">(sauvegarde…)</span>}

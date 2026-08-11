@@ -21,7 +21,6 @@ interface CodeEditorProps {
   children?: string;
 }
 
-// Cache Pyodide instance
 let pyodideInstance: any = null;
 let pyodideLoading: Promise<any> | null = null;
 
@@ -70,12 +69,9 @@ export default function CodeEditor({
   const [pyodideReady, setPyodideReady] = useState(false);
   const isRunning = useRef(false);
 
-  // Précharge Pyodide en arrière-plan dès que la page s'affiche,
-  // pour que le premier "Exécuter" soit quasi instantané.
   useEffect(() => {
     if (language !== "python") return;
 
-    // On laisse le navigateur respirer avant de lancer un téléchargement lourd
     const idle =
       (window as any).requestIdleCallback?.(() => {
         loadPyodideOnce().then(() => setPyodideReady(true));
@@ -151,8 +147,12 @@ sys.stdout = StringIO()
           )}
         </div>
         <div className="flex gap-2">
-          <button onClick={reset} className="btn btn-ghost btn-xs gap-1" title="Réinitialiser">
-            <RotateCcw size={14} />
+          <button
+            onClick={reset}
+            className="btn btn-ghost btn-xs gap-1"
+            aria-label="Réinitialiser le code"
+          >
+            <RotateCcw size={14} aria-hidden="true" />
             Reset
           </button>
           {runnable && (
@@ -160,15 +160,17 @@ sys.stdout = StringIO()
               onClick={runCode}
               disabled={running}
               className="btn btn-primary btn-xs gap-1 glow-primary-sm"
+              aria-label={running ? runLabel : "Exécuter le code"}
+              aria-busy={running}
             >
               {running ? (
                 <>
-                  <Loader2 size={14} className="animate-spin" />
+                  <Loader2 size={14} className="animate-spin" aria-hidden="true" />
                   {runLabel}
                 </>
               ) : (
                 <>
-                  <Play size={14} />
+                  <Play size={14} aria-hidden="true" />
                   {runLabel}
                 </>
               )}
@@ -177,22 +179,24 @@ sys.stdout = StringIO()
         </div>
       </div>
 
-      <Editor
-        height={height}
-        language={language}
-        theme="vs-dark"
-        value={code}
-        onChange={(value) => setCode(value ?? "")}
-        options={{
-          minimap: { enabled: false },
-          fontSize: 14,
-          lineNumbers: "on",
-          scrollBeyondLastLine: false,
-          automaticLayout: true,
-          padding: { top: 12 },
-          fontFamily: "JetBrains Mono, Fira Code, monospace",
-        }}
-      />
+      <div aria-label="Zone de code" role="group">
+        <Editor
+          height={height}
+          language={language}
+          theme="vs-dark"
+          value={code}
+          onChange={(value) => setCode(value ?? "")}
+          options={{
+            minimap: { enabled: false },
+            fontSize: 14,
+            lineNumbers: "on",
+            scrollBeyondLastLine: false,
+            automaticLayout: true,
+            padding: { top: 12 },
+            fontFamily: "JetBrains Mono, Fira Code, monospace",
+          }}
+        />
+      </div>
 
       {(output || error) && (
         <div className="border-t border-primary/10">
@@ -200,6 +204,8 @@ sys.stdout = StringIO()
             Output
           </div>
           <pre
+            role="status"
+            aria-live="polite"
             className={`p-4 text-sm font-mono overflow-x-auto max-h-48 ${
               error ? "text-error bg-error/10" : "text-success bg-success/5"
             }`}
