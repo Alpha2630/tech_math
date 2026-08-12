@@ -36,7 +36,7 @@ export default function WarpGrid() {
     const RING_SPEED = 0.00012; // vitesse des anneaux vers l'extérieur
     const ROTATE_SPEED = 0.00002; // rotation d'ensemble, très lente
 
-    let rafId: number;
+    let rafId = 0;
     const start = performance.now();
 
     function draw(now: number) {
