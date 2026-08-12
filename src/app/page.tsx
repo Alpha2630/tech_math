@@ -55,15 +55,22 @@ export default function HomePage() {
       {/* Value props */}
       <section className="px-4 py-16 max-w-6xl mx-auto">
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="card bg-base-200 border border-gray-700 overflow-hidden">
-            <figure className="h-48">
+          <div className="card bg-base-200 arc-border overflow-hidden group transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+            <figure className="h-44 relative overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop"
                 alt="Maths en contexte"
-                className="w-full h-full object-cover"
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                style={{ filter: "saturate(0.4) brightness(0.75) hue-rotate(10deg)" }}
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-base-200 via-base-200/20 to-primary/20 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-gradient-to-t from-base-200 to-transparent" />
+              <div className="absolute bottom-3 left-3 w-11 h-11 rounded-xl bg-primary/15 backdrop-blur-sm border border-primary/30 flex items-center justify-center">
+                <Calculator className="text-primary" size={22} />
+              </div>
             </figure>
-            <div className="card-body items-center text-center">
+            <div className="card-body items-center text-center pt-5">
               <h3 className="card-title text-lg">Maths en contexte</h3>
               <p className="text-sm opacity-70">
                 Plus de formules abstraites. On montre exactement où et pourquoi
@@ -72,15 +79,22 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="card bg-base-200 border border-gray-700 overflow-hidden">
-            <figure className="h-48">
+          <div className="card bg-base-200 arc-border overflow-hidden group transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+            <figure className="h-44 relative overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&h=400&fit=crop"
                 alt="Anglais technique"
-                className="w-full h-full object-cover"
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                style={{ filter: "saturate(0.4) brightness(0.75) hue-rotate(10deg)" }}
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-base-200 via-base-200/20 to-secondary/20 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-gradient-to-t from-base-200 to-transparent" />
+              <div className="absolute bottom-3 left-3 w-11 h-11 rounded-xl bg-secondary/15 backdrop-blur-sm border border-secondary/30 flex items-center justify-center">
+                <Languages className="text-secondary" size={22} />
+              </div>
             </figure>
-            <div className="card-body items-center text-center">
+            <div className="card-body items-center text-center pt-5">
               <h3 className="card-title text-lg">Anglais technique</h3>
               <p className="text-sm opacity-70">
                 Vocabulaire essentiel mis en évidence : documentation,
@@ -90,15 +104,22 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="card bg-base-200 border border-gray-700 overflow-hidden">
-            <figure className="h-48">
+          <div className="card bg-base-200 arc-border overflow-hidden group transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+            <figure className="h-44 relative overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop"
                 alt="Pratique interactive"
-                className="w-full h-full object-cover"
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                style={{ filter: "saturate(0.4) brightness(0.75) hue-rotate(10deg)" }}
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-base-200 via-base-200/20 to-accent/20 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-gradient-to-t from-base-200 to-transparent" />
+              <div className="absolute bottom-3 left-3 w-11 h-11 rounded-xl bg-accent/15 backdrop-blur-sm border border-accent/30 flex items-center justify-center">
+                <Code2 className="text-accent" size={22} />
+              </div>
             </figure>
-            <div className="card-body items-center text-center">
+            <div className="card-body items-center text-center pt-5">
               <h3 className="card-title text-lg">Pratique interactive</h3>
               <p className="text-sm opacity-70">
                 Éditeur de code intégré + exécution Python dans le navigateur.
@@ -112,7 +133,9 @@ export default function HomePage() {
       {/* Domains preview */}
       <section className="px-4 py-16 max-w-6xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold mb-3">Domaines couverts</h2>
+          <h2 className="text-3xl font-bold mb-3">
+            Domaines couverts
+          </h2>
           <p className="opacity-70 max-w-xl mx-auto">
             Chaque parcours relie les concepts mathématiques, le vocabulaire
             anglais et des exemples de code concrets.
