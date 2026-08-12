@@ -33,16 +33,20 @@ export default function WarpGrid() {
 
     const RING_COUNT = 14;
     const LINE_COUNT = 26;
-    const RING_SPEED = 0.00012;
-    const ROTATE_SPEED = 0.00002;
+    const RING_SPEED = 0.00012; // vitesse des anneaux vers l'extérieur
+    const ROTATE_SPEED = 0.00002; // rotation d'ensemble, très lente
 
     let rafId = 0;
     const start = performance.now();
 
     function draw(now: number) {
       if (document.hidden) {
-        rafId = requestAnimationFrame(draw);
-        return; // pause quand l'onglet n'est pas visible
+        // pause quand l'onglet n'est pas visible, mais on continue à
+        // vérifier tant que l'animation est autorisée
+        if (!prefersReducedMotion) {
+          rafId = requestAnimationFrame(draw);
+        }
+        return;
       }
 
       const t = now - start;
@@ -66,7 +70,7 @@ export default function WarpGrid() {
         ctx!.stroke();
       }
 
-      // Anneaux concentriques
+      // Anneaux concentriques progressant vers l'extérieur (effet tunnel)
       const progress = (t * RING_SPEED) % 1;
       for (let i = 0; i < RING_COUNT; i++) {
         const p = (i / RING_COUNT + progress) % 1;
@@ -79,7 +83,7 @@ export default function WarpGrid() {
         ctx!.stroke();
       }
 
-      // Point lumineux central
+      // Point lumineux central (léger pulse)
       const glowR = 40 + Math.sin(t * 0.0015) * 6;
       const gradient = ctx!.createRadialGradient(cx, cy, 0, cx, cy, glowR);
       gradient.addColorStop(0, "rgba(0, 212, 255, 0.5)");
@@ -89,12 +93,14 @@ export default function WarpGrid() {
       ctx!.arc(cx, cy, glowR, 0, Math.PI * 2);
       ctx!.fill();
 
-      // Continue la boucle
-      rafId = requestAnimationFrame(draw);
+      // Continue la boucle seulement si l'animation est autorisée
+      if (!prefersReducedMotion) {
+        rafId = requestAnimationFrame(draw);
+      }
     }
 
     if (prefersReducedMotion) {
-      // Une seule image statique
+      // Une seule image statique, pas de boucle d'animation
       draw(start + 400);
     } else {
       rafId = requestAnimationFrame(draw);
