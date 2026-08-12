@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { domains } from "@/lib/domains";
 import DomainCard from "@/components/DomainCard";
+import WarpGrid from "@/components/WarpGrid";
 import {
   ArrowRight,
   BookOpen,
@@ -15,6 +16,7 @@ export default function HomePage() {
     <div className="relative overflow-hidden">
       {/* Hero */}
       <section className="relative px-4 py-20 lg:py-28 max-w-6xl mx-auto text-center">
+        <WarpGrid />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
 
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm mb-6">

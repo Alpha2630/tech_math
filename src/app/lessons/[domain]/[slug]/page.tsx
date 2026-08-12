@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getDomain, getLesson } from "@/lib/domains";
 import { getLessonContent, getAllLessonPaths } from "@/lib/lessons";
+import { getDomainIcon } from "@/lib/domain-icons";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/MDXComponents";
 import { ArrowLeft, Clock, Signal } from "lucide-react";
@@ -57,6 +58,8 @@ export default async function LessonPage({
     notFound();
   }
 
+  const Icon = getDomainIcon(domain.icon);
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -95,8 +98,9 @@ export default async function LessonPage({
 
       <header className="mb-10">
         <div className="flex flex-wrap gap-2 mb-3">
-          <span className="badge badge-primary badge-outline">
-            {domain.icon} {domain.name}
+          <span className="badge badge-primary badge-outline gap-1">
+            <Icon size={12} />
+            {domain.name}
           </span>
           <span className="badge badge-ghost gap-1">
             <Signal size={12} />

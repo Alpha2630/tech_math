@@ -3,6 +3,7 @@ import { getAllProgress } from "@/lib/progress";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { domains, getDomain, getLesson } from "@/lib/domains";
+import { getDomainIcon } from "@/lib/domain-icons";
 import { BookOpen, Trophy, Flame, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export const metadata = {
@@ -16,7 +17,6 @@ function calculateStreak(dates: string[]): number {
   const cursor = new Date();
   let streak = 0;
 
-  // Si rien aujourd'hui, on vérifie si hier compte encore comme actif
   const todayKey = cursor.toISOString().slice(0, 10);
   if (!daySet.has(todayKey)) {
     cursor.setDate(cursor.getDate() - 1);
@@ -67,7 +67,6 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
         <div className="stat bg-base-200 rounded-xl border border-primary/10">
           <div className="stat-figure text-primary">
@@ -102,7 +101,6 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Recently completed */}
       {recentCompleted.length > 0 && (
         <div className="mb-12">
           <h2 className="text-xl font-bold mb-4">Récemment terminé</h2>
@@ -132,10 +130,10 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      {/* Domains quick access */}
       <h2 className="text-xl font-bold mb-4">Tes domaines</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {domains.map((domain) => {
+          const Icon = getDomainIcon(domain.icon);
           const domainCompleted = domain.lessons.filter((l) =>
             completedKeys.has(`${domain.slug}/${l.slug}`)
           ).length;
@@ -148,7 +146,11 @@ export default async function DashboardPage() {
             >
               <div className="card-body py-5">
                 <div className="flex items-center gap-3">
-                  <span className="text-3xl">{domain.icon}</span>
+                  <div
+                    className={`w-10 h-10 rounded-lg bg-gradient-to-br ${domain.color} flex items-center justify-center shrink-0`}
+                  >
+                    <Icon size={20} className="text-white" strokeWidth={2} />
+                  </div>
                   <div className="flex-1">
                     <h3 className="font-semibold group-hover:text-primary transition-colors">
                       {domain.name}

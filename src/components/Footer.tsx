@@ -2,15 +2,15 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="footer footer-center bg-base-200 text-base-content p-8 border-t border-primary/10 mt-auto">
-      <aside>
-        <div className="flex items-center gap-2 mb-2">
+    <footer className="flex flex-col items-center gap-6 bg-base-200 text-base-content p-8 border-t border-primary/10 mt-auto text-center">
+      <div className="px-4 max-w-md">
+        <div className="flex items-center justify-center gap-2 mb-2">
           <span className="text-primary text-2xl">⚡</span>
           <span className="font-bold text-lg">
             Tech<span className="text-primary">Math</span>Guide
           </span>
         </div>
-        <p className="text-sm opacity-70 max-w-md">
+        <p className="text-sm opacity-70">
           Comprendre le lien réel entre Mathématiques, Anglais technique et
           Technologie. Pour les développeurs curieux de 2026.
         </p>
@@ -18,8 +18,9 @@ export default function Footer() {
           © {new Date().getFullYear()} TechMathGuide — Projet éducatif open
           source
         </p>
-      </aside>
-      <nav className="grid grid-flow-col gap-4 text-sm">
+      </div>
+
+      <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm px-4">
         <Link href="/" className="link link-hover">
           Accueil
         </Link>
@@ -30,7 +31,8 @@ export default function Footer() {
           Dashboard
         </Link>
       </nav>
-      <nav className="grid grid-flow-col gap-4 text-xs opacity-60">
+
+      <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs opacity-60 px-4">
         <Link href="/mentions-legales" className="link link-hover">
           Mentions légales
         </Link>

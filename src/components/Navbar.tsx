@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { Menu, X, LogOut, LayoutDashboard, BookOpen } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, BookOpen, Zap } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -73,7 +73,12 @@ export default function Navbar() {
           )}
         </div>
         <Link href="/" className="btn btn-ghost text-xl font-bold gap-2">
-          <span className="text-primary glow-text">⚡</span>
+          <Zap
+            size={22}
+            className="text-primary"
+            style={{ filter: "drop-shadow(0 0 6px rgba(0, 212, 255, 0.6))" }}
+            fill="currentColor"
+          />
           <span className="hidden sm:inline">
             Tech<span className="text-primary">Math</span>Guide
           </span>

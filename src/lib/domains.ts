@@ -21,7 +21,7 @@ export const domains: Domain[] = [
     nameEn: "Cybersecurity",
     description:
       "Cryptographie, hachage, algorithmes de sécurité et maths derrière la protection des systèmes.",
-    icon: "🛡️",
+    icon: "shield",
     color: "from-cyan-500 to-blue-600",
     lessons: [
       {
@@ -47,7 +47,7 @@ export const domains: Domain[] = [
     nameEn: "AI / Machine Learning",
     description:
       "Algèbre linéaire, probabilités, gradients et comment les maths font apprendre les machines.",
-    icon: "🤖",
+    icon: "brain",
     color: "from-purple-500 to-cyan-500",
     lessons: [
       {
@@ -73,7 +73,7 @@ export const domains: Domain[] = [
     nameEn: "Data Science",
     description:
       "Statistiques, probabilités, distributions et analyse de données avec code.",
-    icon: "📊",
+    icon: "bar-chart",
     color: "from-emerald-500 to-cyan-500",
     lessons: [
       {
@@ -98,7 +98,7 @@ export const domains: Domain[] = [
     nameEn: "Robotics",
     description:
       "Géométrie, transformations, cinématique et contrôle pour les robots.",
-    icon: "🦾",
+    icon: "bot",
     color: "from-orange-500 to-cyan-500",
     lessons: [
       {
@@ -124,7 +124,7 @@ export const domains: Domain[] = [
     nameEn: "Web Development",
     description:
       "Algorithmes, complexité, maths discrètes et performance frontend/backend.",
-    icon: "🌐",
+    icon: "globe",
     color: "from-blue-500 to-cyan-400",
     lessons: [
       {
@@ -150,7 +150,7 @@ export const domains: Domain[] = [
     nameEn: "Mobile Development",
     description:
       "Géométrie, physics engines, optimisation et maths pour apps performantes.",
-    icon: "📱",
+    icon: "smartphone",
     color: "from-pink-500 to-cyan-500",
     lessons: [
       {
@@ -176,7 +176,7 @@ export const domains: Domain[] = [
     nameEn: "DevOps / Cloud",
     description:
       "Probabilités, files d'attente, scaling et maths derrière l'infrastructure.",
-    icon: "☁️",
+    icon: "cloud",
     color: "from-sky-500 to-indigo-500",
     lessons: [
       {

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getAllProgress } from "@/lib/progress";
+import { getDomainIcon } from "@/lib/domain-icons";
 import { Clock, Signal, ArrowLeft, BookOpen, CheckCircle2 } from "lucide-react";
 
 export async function generateStaticParams() {
@@ -47,6 +48,8 @@ export default async function DomainPage({
   const domain = getDomain(slug);
   if (!domain) notFound();
 
+  const Icon = getDomainIcon(domain.icon);
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -69,7 +72,11 @@ export default async function DomainPage({
 
       <div className="mb-10">
         <div className="flex items-center gap-4 mb-3">
-          <span className="text-5xl">{domain.icon}</span>
+          <div
+            className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${domain.color} flex items-center justify-center shadow-lg shrink-0`}
+          >
+            <Icon size={32} className="text-white" strokeWidth={2} />
+          </div>
           <div>
             <h1 className="text-3xl font-bold">{domain.name}</h1>
             <p className="text-sm opacity-60">{domain.nameEn}</p>
