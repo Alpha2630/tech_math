@@ -36,20 +36,17 @@ export default function WarpGrid() {
     const RING_SPEED = 0.00012; // vitesse des anneaux vers l'extérieur
     const ROTATE_SPEED = 0.00002; // rotation d'ensemble, très lente
 
+    // Modulo toujours positif (le % natif de JS peut renvoyer un résultat négatif)
+    const mod1 = (x: number) => ((x % 1) + 1) % 1;
+
     let rafId = 0;
     const start = performance.now();
 
     function draw(now: number) {
-      if (document.hidden) {
-        // pause quand l'onglet n'est pas visible, mais on continue à
-        // vérifier tant que l'animation est autorisée
-        if (!prefersReducedMotion) {
-          rafId = requestAnimationFrame(draw);
-        }
-        return;
-      }
+      rafId = requestAnimationFrame(draw);
+      if (document.hidden) return; // pause quand l'onglet n'est pas visible
 
-      const t = now - start;
+      const t = Math.max(0, now - start); // jamais négatif, même au 1er frame
       const cx = width / 2;
       const cy = height * 0.55;
       const maxR = Math.hypot(width, height) * 0.6;
@@ -71,12 +68,12 @@ export default function WarpGrid() {
       }
 
       // Anneaux concentriques progressant vers l'extérieur (effet tunnel)
-      const progress = (t * RING_SPEED) % 1;
+      const progress = mod1(t * RING_SPEED);
       for (let i = 0; i < RING_COUNT; i++) {
-        const p = (i / RING_COUNT + progress) % 1;
-        const r = p * maxR;
+        const p = mod1(i / RING_COUNT + progress);
+        const r = Math.max(0, p * maxR);
         const opacity = (1 - p) * 0.3;
-        if (opacity <= 0.01) continue;
+        if (opacity <= 0.01 || r <= 0) continue;
         ctx!.strokeStyle = `rgba(72, 202, 228, ${opacity})`;
         ctx!.beginPath();
         ctx!.ellipse(cx, cy, r, r * 0.55, rotation * 0.5, 0, Math.PI * 2);
@@ -84,7 +81,7 @@ export default function WarpGrid() {
       }
 
       // Point lumineux central (léger pulse)
-      const glowR = 40 + Math.sin(t * 0.0015) * 6;
+      const glowR = Math.max(1, 40 + Math.sin(t * 0.0015) * 6);
       const gradient = ctx!.createRadialGradient(cx, cy, 0, cx, cy, glowR);
       gradient.addColorStop(0, "rgba(0, 212, 255, 0.5)");
       gradient.addColorStop(1, "rgba(0, 212, 255, 0)");
@@ -92,16 +89,12 @@ export default function WarpGrid() {
       ctx!.beginPath();
       ctx!.arc(cx, cy, glowR, 0, Math.PI * 2);
       ctx!.fill();
-
-      // Continue la boucle seulement si l'animation est autorisée
-      if (!prefersReducedMotion) {
-        rafId = requestAnimationFrame(draw);
-      }
     }
 
     if (prefersReducedMotion) {
       // Une seule image statique, pas de boucle d'animation
       draw(start + 400);
+      cancelAnimationFrame(rafId);
     } else {
       rafId = requestAnimationFrame(draw);
     }

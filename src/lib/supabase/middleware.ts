@@ -1,4 +1,4 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
@@ -14,7 +14,9 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(
+          cookiesToSet: { name: string; value: string; options?: CookieOptions }[]
+        ) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
@@ -34,9 +36,6 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect routes — seul le dashboard nécessite une connexion.
-  // Les leçons restent publiques pour le SEO ; la sauvegarde de progression
-  // (quiz, complétion) est gérée côté Server Action, pas ici.
   const isProtected = request.nextUrl.pathname.startsWith("/dashboard");
 
   if (isProtected && !user) {
@@ -46,7 +45,6 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Redirect logged-in users away from login
   if (request.nextUrl.pathname === "/login" && user) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
