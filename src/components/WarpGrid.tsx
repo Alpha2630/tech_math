@@ -105,17 +105,17 @@ export default function WarpGrid() {
     };
   }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="absolute inset-0 w-full h-full"
-      style={{
-        maskImage:
-          "radial-gradient(ellipse at center, black 35%, transparent 75%)",
-        WebkitMaskImage:
-          "radial-gradient(ellipse at center, black 35%, transparent 75%)",
-      }}
-    />
-  );
+return (
+  <canvas
+    ref={canvasRef}
+    aria-hidden="true"
+    className="absolute inset-0 w-full h-full -z-10 pointer-events-none"
+    style={{
+      maskImage:
+        "radial-gradient(ellipse at center, black 35%, transparent 75%)",
+      WebkitMaskImage:
+        "radial-gradient(ellipse at center, black 35%, transparent 75%)",
+    }}
+  />
+);
 }
