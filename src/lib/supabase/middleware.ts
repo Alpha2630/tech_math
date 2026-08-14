@@ -31,7 +31,6 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // Refresh session
   const {
     data: { user },
   } = await supabase.auth.getUser();
