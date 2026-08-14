@@ -15,7 +15,7 @@ export default function HomePage() {
   return (
     <div className="relative overflow-hidden">
       {/* Hero */}
-      <section className="relative px-4 py-20 lg:py-28 max-w-6xl mx-auto text-center">
+      <section className="relative z-0 px-4 py-20 lg:py-28 max-w-6xl mx-auto text-center">
         <WarpGrid />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
 
